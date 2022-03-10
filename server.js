@@ -48,12 +48,12 @@ const requestListener = (req, res) => {
     } else if (req.url.startsWith('/todos/') && req.method === 'PATCH') {
         req.on('end', () => {
             try {
-                const { title } = JSON.parse(body);
-                if (!title) throw { statusCode: 400, errorMessage: 'title 為必填' };
-
                 const id = req.url.split('/').pop();
                 const index = data.findIndex((item) => item.id === id);
+                const { title } = JSON.parse(body);
+
                 if (index === -1) throw { statusCode: 400, errorMessage: '找不到此 id' };
+                if (!title) throw { statusCode: 400, errorMessage: 'title 為必填' };
 
                 data[index].title = title;
 
